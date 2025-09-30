@@ -14,21 +14,17 @@ connectDB();
 
 const app = express();
 
-// CORS middleware - PLACE THIS FIRST
 app.use(cors({
-    origin: ['https://saarthi-eta.vercel.app/', 'http://127.0.0.1:3000'],
+    origin: ['https://saarthi-eta.vercel.app', 'http://127.0.0.1:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Handle preflight requests
 app.options('*', cors());
 
-// Security middleware
 app.use(helmet());
 
-// Rate limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
@@ -45,7 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/admin',adminRoutes);
-app.use('api/v1/doctors',doctorRoutes)
+app.use('/api/v1/doctors',doctorRoutes)
 
 // Health check route
 app.get('/api/health', (req, res) => {
